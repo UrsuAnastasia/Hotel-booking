@@ -1,0 +1,153 @@
+.singleRoom {
+  display: flex;
+  width: 100%;
+
+  &_Container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 600px;
+  }
+
+  &_Right {
+    width: 65%;
+    display: flex;
+    height: 600px;
+    // box-sizing: border-box;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 26px;
+      object-fit: cover;
+    }
+  }
+
+  &_Left {
+    width: 34%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: column;
+
+    :first-child {
+      margin-bottom: 10px;
+    }
+
+    img {
+      width: 100%;
+      height: 290px;
+      border-radius: 26px;
+      object-fit: cover;
+    }
+  }
+
+  &_DetailsContainer {
+    margin-top: 36px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &_DetailsInfo {
+    width: 65%;
+
+    h1 {
+      color: #1c1c1e;
+      font-weight: 600;
+      font-size: 26px;
+    }
+
+    h2 {
+      color: #1c1c1e;
+      font-weight: 600;
+      font-size: 20px;
+      margin-top: 24px;
+    }
+
+    p {
+      color: #667085;
+      font-size: 14px;
+      line-height: 26px;
+    }
+
+    li {
+      list-style-type: circle;
+      color: #667085;
+      font-size: 14px;
+      line-height: 26px;
+    }
+  }
+
+  &_DetailsReservation {
+    width: 34%;
+    border: 1px solid #d0d5dd;
+    padding: 24px;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  &_DetailsPrice {
+    color: #6345fa;
+    font-weight: 600;
+    font-size: 18px;
+    border-bottom: 1px solid #d0d5dd;
+    padding: 12px 0;
+    margin-top: 12px;
+
+    span {
+      color: #667085;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  &_ButtonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 32px;
+  }
+
+  &_CheckIn {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+
+    span {
+      color: #667085;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+  }
+
+  &_Payment {
+    color: #667085;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
+
+  &_Button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #6345fa;
+    border-radius: 8px;
+    color: #ffff;
+    padding: 8px 24px;
+
+    span {
+      font-size: 14px;
+      line-height: 26px;
+      margin-left: 8px;
+    }
+  }
+}

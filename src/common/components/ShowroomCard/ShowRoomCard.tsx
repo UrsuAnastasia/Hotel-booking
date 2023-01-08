@@ -1,16 +1,23 @@
 import { Bed } from 'common/assets/icons/Bed'
 import { Wifi } from 'common/assets/icons/Wifi'
+import { useNavigate } from 'react-router-dom'
 import style from './ShowroomCard.module.scss'
 interface Props {
   date: Array<any>
 }
 export const CardShowroom: React.FC<Props> = ({ ...props }) => {
+  const navigate = useNavigate()
   return (
     <div className=''>
       <div className={style.cardShowroom_Container}>
         {props.date.map((item, index) => {
           return (
-            <div key={index} className={style.cardShowroom_Card}>
+            <div
+              key={index}
+              className={style.cardShowroom_Card}
+              onClick={() => {
+                navigate(`/single-room/${item.id}`)
+              }}>
               <div className={style.cardShowroom_Image}>
                 <img alt='room' src={item.image} />
               </div>

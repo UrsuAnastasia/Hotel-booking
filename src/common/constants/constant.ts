@@ -1,5 +1,7 @@
 export const PAGES_PATHS = {
-  DASHBOARD: '/dashboard',
-  TODO_LIST: '/todo-list',
-  ACTIVITIES: '/ACTIVITIES',
+  HOME: '/',
+  SINGLE_ROOM: '/single-room/:id',
+  LOGIN: '/login',
+  SIGN_UP: '/sign-up',
+  RESERVATION: 'RESERVATION',
 }

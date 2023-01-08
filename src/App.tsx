@@ -1,11 +1,9 @@
 import { PageRouter } from 'pages/page-router'
-import { LayoutNavigation } from './layout/layout-header/layout-navigation'
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.scss'
 function App() {
   return (
     <main>
-      <LayoutNavigation />
       <PageRouter />
     </main>
   )
