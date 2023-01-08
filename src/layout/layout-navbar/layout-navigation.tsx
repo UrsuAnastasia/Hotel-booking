@@ -17,7 +17,7 @@ export const LayoutNavigation = () => {
           </Link>
         </li>
         <li className={style.navbar_Item}>
-          <Link className={style.navbar_Link} to={PAGES_PATHS.SINGLE_ROOM}>
+          <Link className={style.navbar_Link} to={PAGES_PATHS.HOTEL_ROOMS}>
             Hotel Rooms
           </Link>
         </li>

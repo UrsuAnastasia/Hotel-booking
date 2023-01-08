@@ -1,7 +1,7 @@
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import style from './single-room.module.scss'
 import * as Icon from 'react-bootstrap-icons'
-import DatePicker from 'react-date-picker'
+import { DatePicker } from 'antd'
 import { useState } from 'react'
 
 const amenities = [
@@ -16,7 +16,7 @@ const amenities = [
 ]
 
 export const SingleRoom = () => {
-  const [value, setValue] = useState(new Date())
+  const [value, setValue] = useState()
   return (
     <LayoutContaier>
       {/* image Container */}
@@ -60,16 +60,26 @@ export const SingleRoom = () => {
           </div>
           <div className={style.singleRoom_CheckIn}>
             <span>Check - in</span>
-            <DatePicker className={style.singleRoom_Calendar} onChange={() => {}} value={value} />
+            <DatePicker
+              showTime
+              format='YYYY-MM-DD HH:mm:ss'
+              value={value}
+              placeholder='Start'
+              onChange={(e: any) => {
+                setValue(e)
+              }}
+              onOpenChange={() => {}}
+            />
           </div>
           <div className={style.singleRoom_CheckIn}>
             <span>Check - out</span>
             <DatePicker
-              onChange={(e: any) => {
-                console.log(e)
-                setValue(e)
-              }}
-              value={value}
+              showTime
+              format='YYYY-MM-DD HH:mm:ss'
+              //   value={10}
+              placeholder='Start'
+              onChange={() => {}}
+              onOpenChange={() => {}}
             />
           </div>
           <div className={style.singleRoom_Payment}>
