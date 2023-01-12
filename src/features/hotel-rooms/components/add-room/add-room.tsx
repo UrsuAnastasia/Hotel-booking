@@ -1,6 +1,6 @@
 import { Radio, RadioChangeEvent } from 'antd'
 import { cleanStatus, roomType } from 'features/hotel-rooms/constants/hotel.constants'
-import { string } from 'prop-types'
+
 import { useState } from 'react'
 import { Button, Form, Modal, Row, Col } from 'react-bootstrap'
 import Select from 'react-select'
@@ -10,11 +10,11 @@ interface Props {
   setShowAddModal: (showAddModal: boolean) => any
 }
 export const AddRoomModal: React.FC<Props> = ({ ...props }) => {
-  const [formData, setFormData] = useState({
-    cleanStatus: '',
-    roomType: '',
-    facilities: '',
-  })
+  // const [formData,setFormData]=useState({
+  //   cleanStatus:'',
+  //   roomType:'',
+  //   facilities:''
+  // })
   const [value, setValue] = useState(1)
   const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value)
@@ -58,12 +58,7 @@ export const AddRoomModal: React.FC<Props> = ({ ...props }) => {
             <Col>
               <Form.Group className='mb-3'>
                 <span>Clean Status </span>
-                <Select
-                  value={formData.cleanStatus}
-                  name='cleanStatus'
-                  className={style.addRoom_Select}
-                  options={cleanStatus}
-                />
+                <Select name='cleanStatus' className={style.addRoom_Select} options={cleanStatus} />
               </Form.Group>
               <Form.Group className='mb-3'>
                 <span>Room Type </span>
