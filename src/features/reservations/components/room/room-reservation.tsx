@@ -2,7 +2,7 @@ import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { Pencil, Plus, Trash } from 'react-bootstrap-icons'
-import { AddRoomModal } from './add-room/add-room'
+import { AddRoomModal } from '../../../hotel-rooms/components/add-room/add-room'
 
 export const RoomRezervation = () => {
   const [showAddModal, setShowAddModal] = useState<boolean>(false)

@@ -1,7 +1,11 @@
 import { CardShowroom } from 'common/components/ShowroomCard/ShowRoomCard'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
-
+import { useState } from 'react'
+import { Plus } from 'react-bootstrap-icons'
+import { AddRoomModal } from '../add-room/add-room'
+import style from './hotel-rooms.module.scss'
 export const HotelRooms = () => {
+  const [showAddModal, setShowAddModal] = useState<boolean>(false)
   const rooms = [
     {
       id: 1,
@@ -61,10 +65,25 @@ export const HotelRooms = () => {
     },
   ]
   return (
-    <>
+    <div>
+      {' '}
+      {showAddModal ? (
+        <AddRoomModal showAddModal={showAddModal} setShowAddModal={setShowAddModal} />
+      ) : null}
+      <LayoutContaier>
+        <div className={style.hotelRooms_Header}>
+          <button
+            className={style.hotelRooms_Button}
+            onClick={() => {
+              setShowAddModal(true)
+            }}>
+            <Plus /> Add new room
+          </button>
+        </div>
+      </LayoutContaier>
       <LayoutContaier>
         <CardShowroom date={rooms} />
       </LayoutContaier>
-    </>
+    </div>
   )
 }

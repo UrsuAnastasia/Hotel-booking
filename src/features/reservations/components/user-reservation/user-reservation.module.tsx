@@ -9,7 +9,7 @@ import { RangePickerProps } from 'antd/es/date-picker'
 import {
   UserRezervation,
   UserRezervationForm,
-} from 'features/hotel-rooms/models/reservation.module'
+} from 'features/reservations/models/reservation.module'
 import api from 'common/axios/axios'
 
 export const UserReservation = () => {

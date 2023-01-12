@@ -1,0 +1,15 @@
+.hotelRooms {
+  &_Button {
+    background-color: #6345fa;
+    border-radius: 8px;
+    color: white;
+    padding: 12px 12px;
+  }
+
+  &_Header {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+}
