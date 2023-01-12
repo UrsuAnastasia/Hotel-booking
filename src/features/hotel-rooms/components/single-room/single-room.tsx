@@ -1,8 +1,6 @@
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import style from './single-room.module.scss'
-import * as Icon from 'react-bootstrap-icons'
-import { DatePicker } from 'antd'
-import { useState } from 'react'
+import { UserReservation } from '../user-reservation/user-reservation.module'
 
 const amenities = [
   { text: 'Air Conditioning' },
@@ -16,7 +14,6 @@ const amenities = [
 ]
 
 export const SingleRoom = () => {
-  const [value, setValue] = useState()
   return (
     <LayoutContaier>
       {/* image Container */}
@@ -58,39 +55,7 @@ export const SingleRoom = () => {
           <div className={style.singleRoom_DetailsPrice}>
             50$ <span>/night</span>
           </div>
-          <div className={style.singleRoom_CheckIn}>
-            <span>Check - in</span>
-            <DatePicker
-              showTime
-              format='YYYY-MM-DD HH:mm:ss'
-              value={value}
-              placeholder='Start'
-              onChange={(e: any) => {
-                setValue(e)
-              }}
-              onOpenChange={() => {}}
-            />
-          </div>
-          <div className={style.singleRoom_CheckIn}>
-            <span>Check - out</span>
-            <DatePicker
-              showTime
-              format='YYYY-MM-DD HH:mm:ss'
-              //   value={10}
-              placeholder='Start'
-              onChange={() => {}}
-              onOpenChange={() => {}}
-            />
-          </div>
-          <div className={style.singleRoom_Payment}>
-            <div>Total Payment</div> <div>350$</div>
-          </div>
-          <div className={style.singleRoom_ButtonContainer}>
-            <button className={style.singleRoom_Button}>
-              <Icon.CalendarCheckFill />
-              <span>Reserve now</span>
-            </button>
-          </div>
+          <UserReservation />
         </div>
       </div>
     </LayoutContaier>

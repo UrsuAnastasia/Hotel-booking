@@ -1,7 +1,7 @@
 import { CardShowroom } from 'common/components/ShowroomCard/ShowRoomCard'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { MainPage } from '../home-main-page/home-main-page'
-import { HomeReservation } from '../home-reservation/home-reservation'
+
 import style from './home-landing-page.module.scss'
 export const Home = () => {
   const rooms = [
@@ -38,7 +38,7 @@ export const Home = () => {
     <div>
       <LayoutContaier>
         <MainPage />
-        <HomeReservation />
+        {/* <HomeReservation /> */}
         <div className={style.home_Title}>
           <h1>The best hotels from all the top sites, all in one place</h1>
           <h6>
