@@ -23,7 +23,7 @@ export const LayoutNavigation = () => {
         </li>
         <li className={style.navbar_Item}>
           <Link className={style.navbar_Link} to={PAGES_PATHS.RESERVATION}>
-            Reservations
+            Facility
           </Link>
         </li>
         <li className={style.navbar_ItemButton}>

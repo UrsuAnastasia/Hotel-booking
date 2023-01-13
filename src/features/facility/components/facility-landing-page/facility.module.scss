@@ -1,0 +1,41 @@
+.facility {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &_Conatiner {
+    width: 50%;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
+
+  &_Header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    button {
+      background: linear-gradient(to top, #6345fa 0%, #8b77f0 100%);
+      border-radius: 8px;
+      color: white;
+      height: 40px;
+      width: 120px;
+    }
+  }
+
+  &_Item {
+    font-size: 15px;
+    line-height: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: black;
+  }
+
+  &_Text {
+    margin-left: 20px;
+  }
+}

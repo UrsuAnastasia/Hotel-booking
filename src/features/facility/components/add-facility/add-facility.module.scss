@@ -1,0 +1,27 @@
+.addFacility {
+  margin-top: 50px;
+
+  h4 {
+    margin-bottom: 36px;
+    font-weight: 600;
+    color: #667085;
+  }
+
+  &_Container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  button {
+    border: transparent;
+    color: #6345fa;
+    font-weight: 700;
+  }
+}

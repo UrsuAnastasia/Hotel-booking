@@ -11,9 +11,20 @@
   &_Header {
     display: flex;
     width: 100%;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  &_FilterContainer {
+    display: flex;
     align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 50px;
+
+    span {
+      color: #667085;
+      font-size: 14px;
+      font-weight: 600;
+    }
   }
 
   &_Search {

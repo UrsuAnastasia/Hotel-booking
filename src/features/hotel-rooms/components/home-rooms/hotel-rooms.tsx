@@ -1,6 +1,7 @@
-import { Input } from 'antd'
+import { Input, Select } from 'antd'
 import { CardShowroom } from 'common/components/ShowroomCard/ShowRoomCard'
 import { PAGES_PATHS } from 'common/constants/constant'
+import { roomType } from 'features/hotel-rooms/constants/hotel.constants'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -72,33 +73,91 @@ export const HotelRooms = () => {
   const searchRoomArray = rooms.filter((room) =>
     room.title.toLowerCase().includes(searchValue.toLowerCase()),
   )
+
   return (
     <div>
-      {/* {' '}
-      {showAddModal ? (
-        <AddRoomModal showAddModal={showAddModal} setShowAddModal={setShowAddModal} />
-      ) : null} */}
       <LayoutContaier>
         <div className={style.hotelRooms_Header}>
-          <Search
-            className={style.hotelRooms_Search}
-            allowClear
-            value={searchValue}
-            placeholder='input search text'
-            onChange={(event: any) => {
-              setSearchValue(event.target.value)
-            }}
-            style={{ width: 200 }}
-          />
-          <button
-            className={style.hotelRooms_Button}
-            onClick={() => {
-              navigate(PAGES_PATHS.ADD_ROOM)
+          <div className={style.hotelRooms_FilterContainer}>
+            <span>Filter by:</span>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginLeft: '30px',
+                justifyContent: 'center',
+              }}>
+              <span style={{ marginBottom: '8px' }}>Room type:</span>
+              <Select
+                placeholder='Room type'
+                style={{ width: '150px' }}
+                value={''}
+                onChange={(e) => {}}
+                options={roomType}
+              />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginLeft: '30px',
+                justifyContent: 'center',
+              }}>
+              <span style={{ marginBottom: '8px' }}>Price:</span>
+              <Select
+                placeholder='Room type'
+                style={{ width: '150px' }}
+                value={''}
+                onChange={(e) => {}}
+                options={roomType}
+              />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginLeft: '30px',
+                justifyContent: 'center',
+              }}>
+              <span style={{ marginBottom: '8px' }}>Facilities:</span>
+              <Select
+                placeholder='Room type'
+                style={{ width: '150px' }}
+                value={''}
+                onChange={(e) => {}}
+                options={roomType}
+              />
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            Add new room
-          </button>
+            <Search
+              className={style.hotelRooms_Search}
+              allowClear
+              value={searchValue}
+              placeholder='input search text'
+              onChange={(event: any) => {
+                setSearchValue(event.target.value)
+              }}
+              style={{ width: 200 }}
+            />
+            <button
+              className={style.hotelRooms_Button}
+              onClick={() => {
+                navigate(PAGES_PATHS.ADD_ROOM)
+              }}>
+              Add new room
+            </button>
+          </div>
         </div>
-        <CardShowroom date={searchRoomArray} />
+        <div className={style.hotelRooms_Container}>
+          {' '}
+          <CardShowroom date={searchRoomArray} />
+        </div>
       </LayoutContaier>
     </div>
   )

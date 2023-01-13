@@ -4,6 +4,6 @@ export const PAGES_PATHS = {
   SINGLE_ROOM: '/single-room/:id',
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
-  RESERVATION: 'RESERVATION',
+  RESERVATION: '/facility',
   ADD_ROOM: '/add-room',
 }
