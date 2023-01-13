@@ -7,6 +7,7 @@ import { SignUp } from 'features/auth/components/login/signUp'
 import { MainContent } from 'layout/layout-main-container/layout-main-container'
 import { RoomRezervation } from 'features/reservations/components/room/room-reservation'
 import { Home } from 'features/home/home-landing-page/home-landing-page'
+import { AddRoomModal } from 'features/hotel-rooms/components/add-room/add-room'
 
 export const PageRouter = () => {
   return (
@@ -18,6 +19,7 @@ export const PageRouter = () => {
         <Route path={PAGES_PATHS.HOTEL_ROOMS} element={<HotelRooms />} />
         <Route path={PAGES_PATHS.SINGLE_ROOM} element={<SingleRoom />} />
         <Route path={PAGES_PATHS.RESERVATION} element={<RoomRezervation />} />
+        <Route path={PAGES_PATHS.ADD_ROOM} element={<AddRoomModal />} />
       </Route>
     </Routes>
   )

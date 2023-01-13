@@ -1,11 +1,11 @@
 import { LayoutContaier } from 'layout/layout-container/layout-container'
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { Pencil, Plus, Trash } from 'react-bootstrap-icons'
-import { AddRoomModal } from '../../../hotel-rooms/components/add-room/add-room'
+// import { AddRoomModal } from '../../../hotel-rooms/components/add-room/add-room'
 
 export const RoomRezervation = () => {
-  const [showAddModal, setShowAddModal] = useState<boolean>(false)
+  // const [showAddModal, setShowAddModal] = useState<boolean>(false)
   const tableBody = [
     {
       roomNumber: '2',
@@ -28,6 +28,7 @@ export const RoomRezervation = () => {
   ]
   return (
     <LayoutContaier>
+      <div></div>
       <div
         style={{
           display: 'flex',
@@ -35,15 +36,10 @@ export const RoomRezervation = () => {
           justifyContent: 'flex-end',
           marginBottom: '24px',
         }}>
-        {showAddModal ? (
+        {/* {showAddModal ? (
           <AddRoomModal showAddModal={showAddModal} setShowAddModal={setShowAddModal} />
-        ) : null}
-        <Button
-          size='sm'
-          variant='info'
-          onClick={() => {
-            setShowAddModal(true)
-          }}>
+        ) : null} */}
+        <Button size='sm' variant='info' onClick={() => {}}>
           <Plus /> Add item
         </Button>
       </div>

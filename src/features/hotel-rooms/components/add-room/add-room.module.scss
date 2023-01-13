@@ -1,5 +1,58 @@
 .addRoom {
-  &_Select {
-    margin-top: 4px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-weight: 700;
+  }
+
+  &_Container {
+    width: 80%;
+  }
+
+  &_Wrapper {
+    border-bottom: 2px solid #e4e7ec;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 40px;
+  }
+
+  &_Description {
+    width: 30%;
+
+    span {
+      color: #667085;
+      font-size: 14px;
+    }
+  }
+
+  &_Form {
+    width: 70%;
+
+    span {
+      color: #4d5464;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+  }
+
+  &_ButtonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+  }
+
+  &_Button {
+    background: linear-gradient(to top, #6345fa 0%, #8b77f0 100%);
+    border-radius: 8px;
+    color: white;
+    height: 50px;
+    width: 150px;
   }
 }

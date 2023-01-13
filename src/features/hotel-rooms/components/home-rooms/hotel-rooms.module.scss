@@ -1,15 +1,22 @@
 .hotelRooms {
   &_Button {
-    background-color: #6345fa;
+    background: linear-gradient(to top, #6345fa 0%, #8b77f0 100%);
     border-radius: 8px;
     color: white;
-    padding: 12px 12px;
+    padding: 16px 12px;
+    font-weight: 600;
+    font-size: 14px;
   }
 
   &_Header {
     display: flex;
     width: 100%;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-end;
+    margin-bottom: 50px;
+  }
+
+  &_Search {
+    margin-right: 24px;
   }
 }

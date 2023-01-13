@@ -5,4 +5,5 @@ export const PAGES_PATHS = {
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
   RESERVATION: 'RESERVATION',
+  ADD_ROOM: '/add-room',
 }

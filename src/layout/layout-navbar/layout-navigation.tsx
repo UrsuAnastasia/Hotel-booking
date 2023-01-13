@@ -7,7 +7,7 @@ export const LayoutNavigation = () => {
   const navigate = useNavigate()
   return (
     <nav className={style.navbar}>
-      <div>
+      <div className={style.navbar_Logo}>
         <Logo />
       </div>
       <ul className={style.navbar_List}>
