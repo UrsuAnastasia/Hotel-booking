@@ -1,19 +1,27 @@
 .home {
   &_Title {
     display: flex;
-    width: 100%;
+    width: 90%;
     align-items: center;
     flex-direction: column;
     text-align: center;
     margin: 80px 0;
+
     h1 {
       font-weight: 700;
       color: black;
       margin-bottom: 14px;
     }
+
     h6 {
       width: 80%;
       color: #4d5464;
     }
+  }
+
+  &_SubTitle {
+    font-weight: 700;
+    color: black;
+    margin-bottom: 24px;
   }
 }

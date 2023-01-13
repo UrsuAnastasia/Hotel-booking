@@ -1,0 +1,71 @@
+.bestApartaments {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  &_Container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 50px;
+    margin-top: 100px;
+    justify-content: space-between;
+  }
+
+  &_ImageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 60%;
+  }
+
+  &_Image {
+    width: 60%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+  }
+
+  &_Details {
+    position: absolute;
+    top: -40px;
+    left: 70px;
+    background: linear-gradient(to top, #6345fa 0%, #8b77f0 100%);
+    padding: 16px;
+    border-radius: 8px;
+    width: 200px;
+
+    span {
+      color: aliceblue;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 32px;
+    }
+  }
+
+  &_Description {
+    width: 40%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: 32px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    p {
+      color: #667085;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}

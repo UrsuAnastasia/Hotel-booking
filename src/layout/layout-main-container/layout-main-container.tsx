@@ -1,3 +1,4 @@
+import { LayoutFooter } from 'layout/layout-footer/layout-footer'
 import { LayoutNavigation } from 'layout/layout-navbar/layout-navigation'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
@@ -9,6 +10,7 @@ export const MainContent = () => {
       <main className={styles.mainContent}>
         <Outlet />
       </main>
+      <LayoutFooter />
     </React.Fragment>
   )
 }

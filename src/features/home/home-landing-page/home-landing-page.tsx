@@ -1,5 +1,7 @@
 import { CardShowroom } from 'common/components/ShowroomCard/ShowRoomCard'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
+import { BestApartaments } from '../home-best-apartaments/home-best-apartaments'
+import { BestPrice } from '../home-best-price/home-best-price'
 import { MainPage } from '../home-main-page/home-main-page'
 
 import style from './home-landing-page.module.scss'
@@ -36,17 +38,12 @@ export const Home = () => {
   ]
   return (
     <div>
+      <MainPage />
+      {/* <HomeReservation /> */}
       <LayoutContaier>
-        <MainPage />
-        {/* <HomeReservation /> */}
-        <div className={style.home_Title}>
-          <h1>The best hotels from all the top sites, all in one place</h1>
-          <h6>
-            We believe finding a hotel should be easy. We’ve partnered with the top sites to help
-            you find the perfect hotel. We’ve designed VacationRenter from the ground up for the
-            next generation of travelers.
-          </h6>
-        </div>
+        <BestApartaments />
+        <BestPrice />
+        <h4 className={style.home_SubTitle}>Homes guests love</h4>
         <CardShowroom date={rooms} />
       </LayoutContaier>
     </div>
