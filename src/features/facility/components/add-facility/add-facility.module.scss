@@ -19,9 +19,24 @@
     }
   }
 
-  button {
+  &_Button {
     border: transparent;
     color: #6345fa;
     font-weight: 700;
+  }
+
+  &_ButtonContainer {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+
+    button {
+      background: linear-gradient(to top, #6345fa 0%, #8b77f0 100%);
+      border-radius: 8px;
+      color: #ffff;
+      font-size: 16px;
+      font-weight: 600;
+      height: 50px;
+    }
   }
 }

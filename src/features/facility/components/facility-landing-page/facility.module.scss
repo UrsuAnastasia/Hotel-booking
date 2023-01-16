@@ -33,9 +33,32 @@
     font-weight: 500;
     margin-bottom: 16px;
     color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    svg {
+      cursor: pointer;
+    }
   }
 
   &_Text {
     margin-left: 20px;
+  }
+
+  &_ButtonContainer {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-top: 24px;
+
+    button {
+      background: linear-gradient(to top, #6345fa 0%, #8b77f0 100%);
+      border-radius: 8px;
+      color: white;
+      height: 40px;
+      width: 120px;
+    }
   }
 }

@@ -6,6 +6,7 @@ import TextArea from 'antd/es/input/TextArea'
 import { cleanStatus, roomType } from 'features/hotel-rooms/constants/hotel.constants'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload'
+// import { AddRoom } from 'features/hotel-rooms/models/room.model'
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader()
   reader.addEventListener('load', () => callback(reader.result as string))
@@ -81,18 +82,23 @@ export const AddRoomModal = ({ ...props }) => {
   }
 
   const handlSubmit = () => {
-    const payload = {
-      roomNumber: formData.roomNumber,
-      capacity: formData.capacity,
-      bedNumber: formData.bedNumber,
-      cleanStatus: formData.cleanStatus.value,
-      facilities: [],
-      // reservations: formData.reservations,
-      roomType: formData.roomType.value,
-      petFriendly: formData.petFriendly,
-      pricePerNight: formData.pricePerNight,
-    }
-    console.log(payload)
+    // const payload: AddRoom = {
+    //   roomNumber: formData.roomNumber,
+    //   capacity: formData.capacity,
+    //   bedNumber: formData.bedNumber,
+    //   cleanStatus: formData.cleanStatus.value,
+    //   facilities: [
+    //     {
+    //       id: 1,
+    //     },
+    //   ],
+    //   roomType: formData.roomType.value,
+    //   petFriendly: formData.petFriendly,
+    //   pricePerNight: formData.pricePerNight,
+    //   description: '',
+    //   imageUrl: '',
+    //   title: '',
+    // }
   }
 
   return (

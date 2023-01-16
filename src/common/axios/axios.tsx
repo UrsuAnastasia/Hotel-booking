@@ -13,7 +13,7 @@ export const authToken = {
 }
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: 'http://localhost:9001/api/v1/',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Credentials': true,
