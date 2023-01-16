@@ -6,11 +6,10 @@ import dayjs from 'dayjs'
 import { ModalConfirmReservation } from '../modal-confirm-reservation/modal-confirm-reservation'
 
 import { RangePickerProps } from 'antd/es/date-picker'
-import {
-  UserRezervation,
-  UserRezervationForm,
-} from 'features/reservations/models/reservation.module'
+import { UserRezervationForm } from 'features/reservations/models/reservation.module'
 import api from 'common/axios/axios'
+import { useParams } from 'react-router-dom'
+import moment from 'moment'
 
 export const UserReservation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -26,7 +25,7 @@ export const UserReservation = () => {
       content: 'Your booking was confirmed',
     })
   }
-
+  const { id } = useParams()
   const error = () => {
     Modal.error({
       title: 'This is an error message',
@@ -49,19 +48,20 @@ export const UserReservation = () => {
     }
   }
   const handleReserveRoom = async () => {
-    const payload: UserRezervation = {
-      id: 1,
-      userId: 2,
-      rooms: 4,
-      dateFrom: 'string',
-      dateTo: 'string',
-      reservationStatus: 'string',
-      price: 'string',
-      owner: 'string',
+    const payload: any = {
+      ownerId: 1,
+      dateFrom: moment(values.dateFrom).format('YYYY-MM-DD'),
+      dateTo: moment(values.dateTo).format('YYYY-MM-DD'),
+      rooms: [
+        {
+          id: +id!,
+        },
+      ],
     }
-    const response = await api.post('', payload)
+    const response = await api.post('reservations', payload)
     if (response.status === 200) {
       setIsModalOpen(false)
+      setValues({ dateFrom: '', dateTo: '' })
       success()
     } else {
       setIsModalOpen(false)
@@ -84,7 +84,7 @@ export const UserReservation = () => {
           disabledDate={disabledDate}
           showTime
           name='dateFrom'
-          format='YYYY-MM-DD HH:mm:ss'
+          format='YYYY-MM-DD'
           value={values.dateFrom}
           placeholder='Start'
           onChange={(dateObj: any) => {
@@ -103,7 +103,7 @@ export const UserReservation = () => {
 
         <DatePicker
           disabledDate={(current: any) => current < values.dateFrom}
-          format='YYYY-MM-DD HH:mm:ss'
+          format='YYYY-MM-DD'
           showTime
           name='dateTo'
           value={values.dateTo}

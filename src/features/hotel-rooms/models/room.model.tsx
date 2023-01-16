@@ -1,17 +1,18 @@
 export type AddRoom = {
-  bedNumber: number
-  capacity: number
+  id?: number
+  bedNumber: number | null
+  capacity: number | null
   cleanStatus: string
   description: string
   facilities: [
     {
-      id: number
+      id: number | null
     },
   ]
   imageUrl: string
-  petFriendly: true
-  pricePerNight: 40.0
-  roomNumber: 4
+  petFriendly: boolean
+  pricePerNight: number | null
+  roomNumber: number | null
   roomType: string
   title: string
 }

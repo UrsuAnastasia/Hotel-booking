@@ -27,6 +27,9 @@
   &_Image {
     width: 100%;
     height: 162px;
+    background-color: #4d5464;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 
     img {
       width: 100%;
@@ -117,5 +120,15 @@
     font-size: 10px;
     margin-left: 6px;
     font-weight: 500;
+  }
+
+  &_Action {
+    display: flex;
+    width: 13%;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    right: 16px;
+    top: 20px;
   }
 }

@@ -1,11 +1,13 @@
 import { CardShowroom } from 'common/components/ShowroomCard/ShowRoomCard'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
+import { useState } from 'react'
 import { BestApartaments } from '../home-best-apartaments/home-best-apartaments'
 import { BestPrice } from '../home-best-price/home-best-price'
 import { MainPage } from '../home-main-page/home-main-page'
-
 import style from './home-landing-page.module.scss'
+
 export const Home = () => {
+  const [roomId, setRoomId] = useState<any>()
   const rooms = [
     {
       id: 1,
@@ -44,7 +46,7 @@ export const Home = () => {
         <BestApartaments />
         <BestPrice />
         <h4 className={style.home_SubTitle}>Homes guests love</h4>
-        <CardShowroom date={rooms} />
+        <CardShowroom setRoomId={setRoomId} roomId={roomId} date={rooms} />
       </LayoutContaier>
     </div>
   )

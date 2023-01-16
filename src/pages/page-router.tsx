@@ -21,6 +21,7 @@ export const PageRouter = () => {
         <Route path={PAGES_PATHS.SINGLE_ROOM} element={<SingleRoom />} />
         <Route path={PAGES_PATHS.RESERVATION} element={<Facility />} />
         <Route path={PAGES_PATHS.ADD_ROOM} element={<AddRoomModal />} />
+        <Route path={'/edit-room/:id'} element={<AddRoomModal />} />
       </Route>
     </Routes>
   )

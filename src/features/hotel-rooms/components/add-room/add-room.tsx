@@ -1,75 +1,95 @@
-import { Form, Radio, RadioChangeEvent, Select, Input, Button, Upload, message } from 'antd'
-import { useState } from 'react'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import {
+  Form,
+  Radio,
+  RadioChangeEvent,
+  Select,
+  Input,
+  Button,
+  Upload,
+  Modal,
+  InputNumber,
+} from 'antd'
+import { useEffect, useState } from 'react'
 import style from './add-room.module.scss'
-import TextArea from 'antd/es/input/TextArea'
 import { cleanStatus, roomType } from 'features/hotel-rooms/constants/hotel.constants'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload'
-// import { AddRoom } from 'features/hotel-rooms/models/room.model'
+import { AddRoom } from 'features/hotel-rooms/models/room.model'
+import api from 'common/axios/axios'
+import { FacilityArray } from 'features/facility/models/facility.model'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { PAGES_PATHS } from 'common/constants/constant'
+
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader()
   reader.addEventListener('load', () => callback(reader.result as string))
   reader.readAsDataURL(img)
 }
 
-const beforeUpload = (file: RcFile) => {
-  const isJpgOrPng =
-    file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg'
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!')
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!')
-  }
-  return isJpgOrPng && isLt2M
-}
 export const AddRoomModal = ({ ...props }) => {
   const [value, setValue] = useState(1)
-  const [loading, setLoading] = useState(false)
-  const [imageUrl, setImageUrl] = useState<string>()
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-  ])
-  const [form] = Form.useForm()
+  const [facilities, setFacilities] = useState<Array<FacilityArray>>([])
   const [formData, setFormData] = useState<any>({
-    roomNumber: '',
-    capacity: '',
-    bedNumber: '',
+    title: '',
+    roomNumber: null,
+    capacity: null,
+    bedNumber: null,
     description: '',
-    pricePerNight: '',
+    pricePerNight: null,
     cleanStatus: '',
     roomType: '',
     petFriendly: false,
+    facilities: [],
   })
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  )
-  console.group(uploadButton)
+  const [fileList, setFileList] = useState<UploadFile[]>([
+    {
+      uid: '',
+      name: '',
+      url: '',
+    },
+  ])
+  const navigate = useNavigate()
+  const { TextArea } = Input
+  const [form] = Form.useForm()
+  const { id } = useParams()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.pathname === `/edit-room/${id}`) {
+      const getRooms = async () => {
+        const response = await api.get(`/rooms/${id}`)
+        setFormData({
+          title: response.data.title,
+          roomNumber: response.data.roomNumber,
+          capacity: response.data.capacity,
+          bedNumber: response.data.bedNumber,
+          description: response.data.description,
+          pricePerNight: response.data.pricePerNight,
+          cleanStatus: response.data.cleanStatus,
+          roomType: response.data.roomType,
+          petFriendly: response.data.petFriendly,
+          facilities: response.data.facilities,
+        })
+      }
+      getRooms()
+    }
+  }, [id, location.pathname])
+
+  useEffect(() => {
+    const getAllFacilities = async () => {
+      const response = await api.get('facilities')
+      setFacilities(response.data)
+    }
+    getAllFacilities()
+  }, [])
 
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true)
-      return
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as RcFile, (url) => {
-        setLoading(false)
-        setImageUrl(url)
-        setFileList(info.fileList)
-      })
-    }
+    // Get this url from response in real world.
+    getBase64(info.file.originFileObj as RcFile, (url) => {
+      setFileList(info.fileList)
+    })
   }
+
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value)
   }
@@ -80,33 +100,124 @@ export const AddRoomModal = ({ ...props }) => {
       [name]: value,
     })
   }
-
-  const handlSubmit = () => {
-    // const payload: AddRoom = {
-    //   roomNumber: formData.roomNumber,
-    //   capacity: formData.capacity,
-    //   bedNumber: formData.bedNumber,
-    //   cleanStatus: formData.cleanStatus.value,
-    //   facilities: [
-    //     {
-    //       id: 1,
-    //     },
-    //   ],
-    //   roomType: formData.roomType.value,
-    //   petFriendly: formData.petFriendly,
-    //   pricePerNight: formData.pricePerNight,
-    //   description: '',
-    //   imageUrl: '',
-    //   title: '',
-    // }
+  const error = () => {
+    Modal.error({
+      title: 'This is an error message',
+      content: 'Something went wrong please try again later',
+    })
   }
 
+  const handlSubmit = async () => {
+    const payload: AddRoom = {
+      bedNumber: formData.bedNumber,
+      capacity: formData.capacity,
+      cleanStatus: formData.cleanStatus,
+      description: formData.description,
+      facilities: formData.facilities.map((item: any) => ({ id: item })),
+      imageUrl:
+        'https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGl2aW5nJTIwcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+      petFriendly: formData.petFriendly,
+      roomType: formData.roomType,
+      pricePerNight: formData.pricePerNight,
+      roomNumber: formData.roomNumber,
+      title: formData.title,
+    }
+    const response: any = await api.post('rooms', payload)
+    if (response.status === 200) {
+      navigate(PAGES_PATHS.HOTEL_ROOMS)
+    } else {
+      error()
+    }
+  }
+  const facilitiesOptions = facilities.map((item) => {
+    return {
+      label: item.name,
+      value: item.id,
+    }
+  })
+  const handleEdit = async () => {
+    const payload: any = {
+      id: id!,
+      bedNumber: formData.bedNumber,
+      capacity: formData.capacity,
+      cleanStatus: formData.cleanStatus,
+      description: formData.description,
+      facilities: formData.facilities.map((item: any) => ({ id: item })),
+      imageUrl:
+        'https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGl2aW5nJTIwcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+      petFriendly: formData.petFriendly,
+      roomType: formData.roomType,
+      pricePerNight: formData.pricePerNight,
+      roomNumber: formData.roomNumber,
+      title: formData.title,
+    }
+    const response: any = await api.put('rooms', payload)
+    if (response.status === 200) {
+      navigate(PAGES_PATHS.HOTEL_ROOMS)
+    } else {
+      error()
+    }
+  }
+
+  const initialValues = [
+    {
+      name: ['title'],
+      value: formData.title,
+    },
+    {
+      name: ['roomNumber'],
+      value: formData.roomNumber,
+    },
+    {
+      name: ['capacity'],
+      value: formData.capacity,
+    },
+    {
+      name: ['bedNumber'],
+      value: formData.roomNumber,
+    },
+    {
+      name: ['bedNumber'],
+      value: formData.roomNumber,
+    },
+    {
+      name: ['description'],
+      value: formData.description,
+    },
+    {
+      name: ['pricePerNight'],
+      value: formData.pricePerNight,
+    },
+
+    {
+      name: ['cleanStatus'],
+      value: formData.cleanStatus,
+    },
+    {
+      name: ['petFriendly'],
+      value: formData.petFriendly,
+    },
+    {
+      name: ['roomType'],
+      value: formData.roomType,
+    },
+    {
+      name: ['facilities'],
+      value: formData.facilities,
+    },
+  ]
   return (
     <LayoutContaier>
       <div className={style.addRoom}>
         <div className={style.addRoom_Container}>
-          <h1>Add new</h1>
-          <Form form={form} onClick={handlSubmit}>
+          {location.pathname === `/edit-room/${id}` ? <h1>Edit room</h1> : <h1>Add new</h1>}
+
+          <Form
+            fields={initialValues}
+            form={form}
+            onFinish={() =>
+              location.pathname === `/edit-room/${id}` ? handleEdit() : handlSubmit()
+            }>
             <div className={style.addRoom_Wrapper}>
               <div className={style.addRoom_Description}>
                 <h3>Details</h3>
@@ -117,11 +228,11 @@ export const AddRoomModal = ({ ...props }) => {
                 <Form.Item>
                   <Radio.Group onChange={onChange} value={value}>
                     <Radio
-                      value={true}
+                      value={formData.petFriendly}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
-                          petFriendly: true,
+                          petFriendly: !formData.petFriendly,
                         })
                       }}>
                       True
@@ -138,52 +249,73 @@ export const AddRoomModal = ({ ...props }) => {
                     </Radio>
                   </Radio.Group>
                 </Form.Item>
+                <span>{'Title'}</span>
+                <Form.Item
+                  name='title'
+                  initialValue={formData.title}
+                  rules={[{ required: true, message: 'This field is requird' }]}>
+                  <Input
+                    name='title'
+                    allowClear
+                    placeholder='input search text'
+                    onChange={hadlChangeInput}
+                  />
+                </Form.Item>
+
                 <span>{'Room Number'}</span>
                 <Form.Item
                   name='roomNumber'
                   rules={[{ required: true, message: 'This field is requird' }]}>
-                  <Input
+                  <InputNumber
                     name='roomNumber'
-                    allowClear
-                    value={formData.roomNumber}
+                    style={{ width: '100%' }}
+                    value={formData?.roomNumber}
                     placeholder='input search text'
-                    onChange={hadlChangeInput}
+                    onChange={(value: any) => {
+                      setFormData({ ...formData, roomNumber: value })
+                    }}
                   />
                 </Form.Item>
                 <span>{'Capacity'}</span>
                 <Form.Item
                   name='capacity'
                   rules={[{ required: true, message: 'This field is requird' }]}>
-                  <Input
+                  <InputNumber
+                    style={{ width: '100%' }}
                     name='capacity'
-                    allowClear
-                    value={formData.capacity}
+                    value={formData?.capacity}
                     placeholder='input search text'
-                    onChange={hadlChangeInput}
+                    onChange={(value: any) => {
+                      setFormData({ ...formData, capacity: value })
+                    }}
                   />
                 </Form.Item>
                 <span>{'Bed Number'}</span>
                 <Form.Item
                   name='bedNumber'
                   rules={[{ required: true, message: 'This field is requird' }]}>
-                  <Input
+                  <InputNumber
                     name='bedNumber'
-                    allowClear
-                    value={formData.bedNumber}
+                    style={{ width: '100%' }}
+                    value={formData?.bedNumber}
                     placeholder='input search text'
-                    onChange={hadlChangeInput}
+                    onChange={(value: any) => {
+                      setFormData({ ...formData, bedNumber: value })
+                    }}
                   />
                 </Form.Item>
                 <span>{'Price Per Night'}</span>
                 <Form.Item
                   name='pricePerNight'
                   rules={[{ required: true, message: 'This field is requird' }]}>
-                  <Input
+                  <InputNumber
                     name='pricePerNight'
-                    allowClear
-                    value={formData.pricePerNight}
+                    style={{ width: '100%' }}
+                    value={formData?.pricePerNight}
                     placeholder='input search text'
-                    onChange={hadlChangeInput}
+                    onChange={(value: any) => {
+                      setFormData({ ...formData, pricePerNight: value })
+                    }}
                   />
                 </Form.Item>
                 <span>{'Clean Status'}</span>
@@ -191,7 +323,7 @@ export const AddRoomModal = ({ ...props }) => {
                   name='cleanStatus'
                   rules={[{ required: true, message: 'Please select a clean status' }]}>
                   <Select
-                    value={formData.cleanStatus}
+                    value={formData?.cleanStatus}
                     onChange={(e) => {
                       setFormData({ ...formData, cleanStatus: e })
                     }}
@@ -203,11 +335,24 @@ export const AddRoomModal = ({ ...props }) => {
                   name='roomType'
                   rules={[{ required: true, message: 'Please select a room type status' }]}>
                   <Select
-                    value={formData.cleanStatus}
+                    value={formData?.cleanStatus}
                     onChange={(e) => {
                       setFormData({ ...formData, roomType: e })
                     }}
                     options={roomType}
+                  />
+                </Form.Item>
+                <span>{'Facility'}</span>
+                <Form.Item
+                  name='facility'
+                  rules={[{ required: true, message: 'Please select a room type status' }]}>
+                  <Select
+                    mode='multiple'
+                    value={formData?.facilities}
+                    onChange={(e) => {
+                      setFormData({ ...formData, facilities: e })
+                    }}
+                    options={facilitiesOptions}
                   />
                 </Form.Item>
               </div>
@@ -225,9 +370,8 @@ export const AddRoomModal = ({ ...props }) => {
                     className='avatar-uploader'
                     showUploadList={true}
                     action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-                    beforeUpload={beforeUpload}
                     onChange={handleChange}>
-                    {!imageUrl ? fileList.length : uploadButton}
+                    {fileList.length}
                   </Upload>
                 </Form.Item>
               </div>
@@ -246,9 +390,11 @@ export const AddRoomModal = ({ ...props }) => {
                     rows={8}
                     name='description'
                     allowClear
-                    value={formData.description}
+                    value={formData?.description}
                     placeholder='input search text'
-                    // onChange={hadlChangeInput}
+                    onChange={({ target: { value } }) => {
+                      setFormData({ ...formData, description: value })
+                    }}
                   />
                 </Form.Item>
               </div>
@@ -256,7 +402,7 @@ export const AddRoomModal = ({ ...props }) => {
 
             <Form.Item className={style.addRoom_ButtonContainer}>
               <Button className={style.addRoom_Button} htmlType='submit'>
-                Publish
+                {location.pathname === `/edit-room/${id}` ? 'Edit' : 'Publish'}
               </Button>
             </Form.Item>
           </Form>
