@@ -19,6 +19,7 @@ export const UserReservation = () => {
     dateFrom: '',
     dateTo: '',
   })
+  const userId = localStorage.getItem('userId')
 
   const success = () => {
     Modal.success({
@@ -49,7 +50,7 @@ export const UserReservation = () => {
   }
   const handleReserveRoom = async () => {
     const payload: any = {
-      ownerId: 1,
+      ownerId: userId,
       dateFrom: moment(values.dateFrom).format('YYYY-MM-DD'),
       dateTo: moment(values.dateTo).format('YYYY-MM-DD'),
       rooms: [

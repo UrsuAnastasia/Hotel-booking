@@ -41,7 +41,6 @@ export const Facility = () => {
     } else {
       updatedList.splice(list.indexOf(e.target.value), 1)
     }
-    console.log(updatedList)
     setList(updatedList)
   }
 

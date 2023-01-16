@@ -68,7 +68,7 @@ export const AddRoomModal = ({ ...props }) => {
           cleanStatus: response.data.cleanStatus,
           roomType: response.data.roomType,
           petFriendly: response.data.petFriendly,
-          facilities: response.data.facilities,
+          facilities: response.data.facilities.map((item: any) => item.id),
         })
       }
       getRooms()
@@ -113,7 +113,7 @@ export const AddRoomModal = ({ ...props }) => {
       capacity: formData.capacity,
       cleanStatus: formData.cleanStatus,
       description: formData.description,
-      facilities: formData.facilities.map((item: any) => ({ id: item })),
+      facilities: formData.facilities.map((item: any) => ({ label: item.name, value: item.id })),
       imageUrl:
         'https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGl2aW5nJTIwcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
       petFriendly: formData.petFriendly,
@@ -174,12 +174,9 @@ export const AddRoomModal = ({ ...props }) => {
     },
     {
       name: ['bedNumber'],
-      value: formData.roomNumber,
+      value: formData.bedNumber,
     },
-    {
-      name: ['bedNumber'],
-      value: formData.roomNumber,
-    },
+
     {
       name: ['description'],
       value: formData.description,
@@ -206,6 +203,7 @@ export const AddRoomModal = ({ ...props }) => {
       value: formData.facilities,
     },
   ]
+  console.log(formData.facilities)
   return (
     <LayoutContaier>
       <div className={style.addRoom}>
@@ -228,7 +226,6 @@ export const AddRoomModal = ({ ...props }) => {
                 <Form.Item>
                   <Radio.Group onChange={onChange} value={value}>
                     <Radio
-                      value={formData.petFriendly}
                       onChange={(e) => {
                         setFormData({
                           ...formData,

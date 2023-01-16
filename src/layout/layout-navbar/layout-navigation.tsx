@@ -26,6 +26,11 @@ export const LayoutNavigation = () => {
             Facility
           </Link>
         </li>
+        <li className={style.navbar_Item}>
+          <Link className={style.navbar_Link} to={PAGES_PATHS.ALL_USERS}>
+            Usres
+          </Link>
+        </li>
         <li className={style.navbar_ItemButton}>
           <button onClick={() => navigate(PAGES_PATHS.LOGIN)} className={style.navbar_Button}>
             Login

@@ -6,4 +6,5 @@ export const PAGES_PATHS = {
   SIGN_UP: '/sign-up',
   RESERVATION: '/facility',
   ADD_ROOM: '/add-room',
+  ALL_USERS: '/users',
 }

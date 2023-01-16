@@ -1,19 +1,41 @@
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import style from './single-room.module.scss'
 import { UserReservation } from '../user-reservation/user-reservation.module'
-
-const amenities = [
-  { text: 'Air Conditioning' },
-  { text: 'Closet' },
-  { text: 'Flat Screen TV' },
-  { text: 'Music' },
-  { text: 'Free WiFi' },
-  { text: 'Mini - Fridge' },
-  { text: 'Telephone' },
-  { text: 'Bathroom with shower cabin or walk-in shower' },
-]
-
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import api from 'common/axios/axios'
 export const SingleRoom = () => {
+  const [formData, setFormData] = useState<any>({
+    title: '',
+    roomNumber: null,
+    capacity: null,
+    bedNumber: null,
+    description: '',
+    pricePerNight: null,
+    cleanStatus: '',
+    roomType: '',
+    petFriendly: false,
+    facilities: [],
+  })
+  const { id } = useParams()
+  useEffect(() => {
+    const getRooms = async () => {
+      const response = await api.get(`/rooms/${id}`)
+      setFormData({
+        title: response.data.title,
+        roomNumber: response.data.roomNumber,
+        capacity: response.data.capacity,
+        bedNumber: response.data.bedNumber,
+        description: response.data.description,
+        pricePerNight: response.data.pricePerNight,
+        cleanStatus: response.data.cleanStatus,
+        roomType: response.data.roomType,
+        petFriendly: response.data.petFriendly,
+        facilities: response.data.facilities,
+      })
+    }
+    getRooms()
+  }, [id])
   return (
     <LayoutContaier>
       {/* image Container */}
@@ -38,22 +60,17 @@ export const SingleRoom = () => {
       <div className={style.singleRoom_DetailsContainer}>
         <div className={style.singleRoom_DetailsInfo}>
           <h1>Description</h1>
-          <p>
-            Double Room This is a two-person spacious room of 24 square meters, featuring a private
-            balcony or terrace. Modern furnishings and earthly tones are combined to create a
-            relaxing setting for you and your loved ones in our Double Room. It is spacious and
-            bright and features elegant decor ensuring a stylish and comfortable stay.
-          </p>
+          <p>{formData.description}</p>
           <h2>View below the Amenities in detail</h2>
           <ul>
-            {amenities.map((item, index) => {
-              return <li key={index}>{item.text}</li>
+            {formData.facilities.map((item: any, index: number) => {
+              return <li key={index}>{item.name}</li>
             })}
           </ul>
         </div>
         <div className={style.singleRoom_DetailsReservation}>
           <div className={style.singleRoom_DetailsPrice}>
-            50$ <span>/night</span>
+            {formData.pricePerNight}$ <span>/night</span>
           </div>
           <UserReservation />
         </div>
