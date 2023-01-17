@@ -14,6 +14,7 @@ interface Props {
 export const CardShowroom: React.FC<Props> = ({ ...props }) => {
   const navigate = useNavigate()
   const [opeModal, setOpenModal] = useState(false)
+  const accountType = localStorage.getItem('accountType')
   const handleDelete = async () => {}
   return (
     <div className=''>
@@ -38,16 +39,20 @@ export const CardShowroom: React.FC<Props> = ({ ...props }) => {
                 <span>PREMIUM</span>
               </div>
               <div className={style.cardShowroom_Action}>
-                <div onClick={() => navigate(`/edit-room/${item.id}`)}>
-                  <EyeOutlined />
-                </div>
-                <div
-                  onClick={() => {
-                    props.setRoomId(item.id)
-                    setOpenModal(true)
-                  }}>
-                  <Trash />
-                </div>
+                {accountType === 'ADMIN' && (
+                  <>
+                    <div onClick={() => navigate(`/edit-room/${item.id}`)}>
+                      <EyeOutlined />
+                    </div>
+                    <div
+                      onClick={() => {
+                        props.setRoomId(item.id)
+                        setOpenModal(true)
+                      }}>
+                      <Trash />
+                    </div>
+                  </>
+                )}
               </div>
               <div
                 className={style.cardShowroom_Content}

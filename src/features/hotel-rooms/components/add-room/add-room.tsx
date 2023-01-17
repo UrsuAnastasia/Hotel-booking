@@ -203,7 +203,7 @@ export const AddRoomModal = ({ ...props }) => {
       value: formData.facilities,
     },
   ]
-  console.log(formData.facilities)
+
   return (
     <LayoutContaier>
       <div className={style.addRoom}>

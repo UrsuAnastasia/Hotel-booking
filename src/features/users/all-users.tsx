@@ -1,28 +1,17 @@
-import { Button, Table } from 'antd'
-import type { ColumnsType } from 'antd/es/table'
+import { Table } from 'antd'
+
 import api from 'common/axios/axios'
+import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { useEffect, useState } from 'react'
 
-interface DataType {
-  key: React.Key
-  id: number
-  password: string
-  email: string
-}
-
-const data: DataType[] = []
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    id: 1,
-    email: `Edward King ${i}`,
-    password: `London, Park Lane no. ${i}`,
-  })
-}
-
+// interface DataType {
+//   key: React.Key
+//   id: number
+//   password: string
+//   email: string
+// }
 const ALLUsers: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const [loading, setLoading] = useState(false)
   const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -32,23 +21,33 @@ const ALLUsers: React.FC = () => {
     }
     getAllUsres()
   }, [])
-  const columns: ColumnsType<DataType> = users.map((item: any, index) => {
+
+  const dataSource = users.map((item: any) => {
     return {
-      key: index,
-      id: item.id,
+      key: item.id,
       email: item.email,
+      accountType: item.accountType,
       password: item.password,
     }
   })
 
-  const start = () => {
-    setLoading(true)
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([])
-      setLoading(false)
-    }, 1000)
-  }
+  const columns = [
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Account Type',
+      dataIndex: 'accountType',
+      key: 'accountType',
+    },
+    {
+      title: 'Password',
+      dataIndex: 'password',
+      key: 'password',
+    },
+  ]
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     setSelectedRowKeys(newSelectedRowKeys)
@@ -61,17 +60,16 @@ const ALLUsers: React.FC = () => {
   const hasSelected = selectedRowKeys.length > 0
 
   return (
-    <div>
-      <div style={{ marginBottom: 16 }}>
-        <Button type='primary' onClick={start} disabled={!hasSelected} loading={loading}>
-          Reload
-        </Button>
-        <span style={{ marginLeft: 8 }}>
-          {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-        </span>
+    <LayoutContaier>
+      <div>
+        <div style={{ marginBottom: 16 }}>
+          <span style={{ marginLeft: 8 }}>
+            {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+          </span>
+        </div>
+        <Table rowSelection={rowSelection} columns={columns} dataSource={dataSource} />
       </div>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-    </div>
+    </LayoutContaier>
   )
 }
 

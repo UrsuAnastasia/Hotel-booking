@@ -5,6 +5,7 @@ import { Logo } from 'common/assets/icons/Logo'
 
 export const LayoutNavigation = () => {
   const navigate = useNavigate()
+  const accountType = localStorage.getItem('accountType')
   return (
     <nav className={style.navbar}>
       <div className={style.navbar_Logo}>
@@ -21,16 +22,20 @@ export const LayoutNavigation = () => {
             Hotel Rooms
           </Link>
         </li>
-        <li className={style.navbar_Item}>
-          <Link className={style.navbar_Link} to={PAGES_PATHS.RESERVATION}>
-            Facility
-          </Link>
-        </li>
-        <li className={style.navbar_Item}>
-          <Link className={style.navbar_Link} to={PAGES_PATHS.ALL_USERS}>
-            Usres
-          </Link>
-        </li>
+        {accountType === 'ADMIN' && (
+          <>
+            <li className={style.navbar_Item}>
+              <Link className={style.navbar_Link} to={PAGES_PATHS.RESERVATION}>
+                Facility
+              </Link>
+            </li>
+            <li className={style.navbar_Item}>
+              <Link className={style.navbar_Link} to={PAGES_PATHS.ALL_USERS}>
+                Users
+              </Link>
+            </li>
+          </>
+        )}
         <li className={style.navbar_ItemButton}>
           <button onClick={() => navigate(PAGES_PATHS.LOGIN)} className={style.navbar_Button}>
             Login

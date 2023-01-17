@@ -21,6 +21,7 @@ export const Login = () => {
     }
     const response = await api.post('accounts/login', paylaod)
     localStorage.setItem('userId', response.data.id)
+    localStorage.setItem('accountType', response.data.accountType)
     if (response.status === 200) {
       navigate(PAGES_PATHS.HOME)
     }
