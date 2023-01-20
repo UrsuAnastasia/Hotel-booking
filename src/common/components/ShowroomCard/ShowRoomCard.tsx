@@ -6,6 +6,7 @@ import { EyeOutlined } from '@ant-design/icons'
 import { Trash } from 'react-bootstrap-icons'
 import { useState } from 'react'
 import { DeleteRoom } from 'features/hotel-rooms/components/modal/modal-confirm-reservation'
+import api from 'common/axios/axios'
 interface Props {
   date: Array<any>
   setRoomId: (id: number) => void
@@ -15,7 +16,14 @@ export const CardShowroom: React.FC<Props> = ({ ...props }) => {
   const navigate = useNavigate()
   const [opeModal, setOpenModal] = useState(false)
   const accountType = localStorage.getItem('accountType')
-  const handleDelete = async () => {}
+  const handleDelete = async () => {
+    const response: any = await api.delete(`rooms/${props.roomId}`)
+    if (response === 200) {
+      alert('Success')
+    } else {
+      alert('Error')
+    }
+  }
   return (
     <div className=''>
       {opeModal ? (
@@ -30,7 +38,7 @@ export const CardShowroom: React.FC<Props> = ({ ...props }) => {
           return (
             <div key={index} className={style.cardShowroom_Card}>
               <div className={style.cardShowroom_Image}>
-                <img alt='room' src={item.imageUrl} />
+                <img alt='room' src={'item.imageUrl === null '} />
               </div>
               <div className={style.cardShowroom_Status}>
                 <span>AVAILABLE NOW</span>

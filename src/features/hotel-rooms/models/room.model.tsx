@@ -9,7 +9,7 @@ export type AddRoom = {
       id: number | null
     },
   ]
-  imageUrl: string
+  images: Array<any>
   petFriendly: boolean
   pricePerNight: number | null
   roomNumber: number | null

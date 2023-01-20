@@ -7,4 +7,5 @@ export const PAGES_PATHS = {
   RESERVATION: '/facility',
   ADD_ROOM: '/add-room',
   ALL_USERS: '/users',
+  ALL_USERS_RESERVATION: '/users-reservation',
 }

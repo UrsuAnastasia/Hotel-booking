@@ -13,22 +13,41 @@ import { useEffect, useState } from 'react'
 import style from './add-room.module.scss'
 import { cleanStatus, roomType } from 'features/hotel-rooms/constants/hotel.constants'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
-import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload'
+import { RcFile, UploadFile, UploadProps } from 'antd/es/upload'
+import { PlusOutlined } from '@ant-design/icons'
 import { AddRoom } from 'features/hotel-rooms/models/room.model'
 import api from 'common/axios/axios'
 import { FacilityArray } from 'features/facility/models/facility.model'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { PAGES_PATHS } from 'common/constants/constant'
 
-const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-  const reader = new FileReader()
-  reader.addEventListener('load', () => callback(reader.result as string))
-  reader.readAsDataURL(img)
-}
-
+const getBase64 = (file: RcFile): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = (error) => reject(error)
+  })
+const uploadButton = (
+  <div>
+    <PlusOutlined />
+    <div style={{ marginTop: 8 }}>Upload</div>
+  </div>
+)
 export const AddRoomModal = ({ ...props }) => {
   const [value, setValue] = useState(1)
   const [facilities, setFacilities] = useState<Array<FacilityArray>>([])
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [previewTitle, setPreviewTitle] = useState('')
+  const [fileList, setFileList] = useState<Array<UploadFile>>([
+    {
+      uid: '',
+      name: '',
+      status: undefined,
+      url: '',
+    },
+  ])
   const [formData, setFormData] = useState<any>({
     title: '',
     roomNumber: null,
@@ -41,13 +60,7 @@ export const AddRoomModal = ({ ...props }) => {
     petFriendly: false,
     facilities: [],
   })
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '',
-      name: '',
-      url: '',
-    },
-  ])
+
   const navigate = useNavigate()
   const { TextArea } = Input
   const [form] = Form.useForm()
@@ -58,6 +71,7 @@ export const AddRoomModal = ({ ...props }) => {
     if (location.pathname === `/edit-room/${id}`) {
       const getRooms = async () => {
         const response = await api.get(`/rooms/${id}`)
+
         setFormData({
           title: response.data.title,
           roomNumber: response.data.roomNumber,
@@ -70,11 +84,11 @@ export const AddRoomModal = ({ ...props }) => {
           petFriendly: response.data.petFriendly,
           facilities: response.data.facilities.map((item: any) => item.id),
         })
+        setFileList(response.data.images)
       }
       getRooms()
     }
   }, [id, location.pathname])
-
   useEffect(() => {
     const getAllFacilities = async () => {
       const response = await api.get('facilities')
@@ -83,11 +97,19 @@ export const AddRoomModal = ({ ...props }) => {
     getAllFacilities()
   }, [])
 
-  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile)
+    }
+
+    setPreviewImage(file.url || (file.preview as string))
+    setPreviewOpen(true)
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
+  }
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     // Get this url from response in real world.
-    getBase64(info.file.originFileObj as RcFile, (url) => {
-      setFileList(info.fileList)
-    })
+    setFileList(newFileList)
   }
 
   const onChange = (e: RadioChangeEvent) => {
@@ -113,15 +135,15 @@ export const AddRoomModal = ({ ...props }) => {
       capacity: formData.capacity,
       cleanStatus: formData.cleanStatus,
       description: formData.description,
-      facilities: formData.facilities.map((item: any) => ({ label: item.name, value: item.id })),
-      imageUrl:
-        'https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGl2aW5nJTIwcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+      facilities: formData.facilities.map((item: any) => ({ id: item })),
+      images: fileList.map((item) => ({ url: item.name })),
       petFriendly: formData.petFriendly,
       roomType: formData.roomType,
       pricePerNight: formData.pricePerNight,
       roomNumber: formData.roomNumber,
       title: formData.title,
     }
+
     const response: any = await api.post('rooms', payload)
     if (response.status === 200) {
       navigate(PAGES_PATHS.HOTEL_ROOMS)
@@ -135,6 +157,7 @@ export const AddRoomModal = ({ ...props }) => {
       value: item.id,
     }
   })
+
   const handleEdit = async () => {
     const payload: any = {
       id: id!,
@@ -143,8 +166,7 @@ export const AddRoomModal = ({ ...props }) => {
       cleanStatus: formData.cleanStatus,
       description: formData.description,
       facilities: formData.facilities.map((item: any) => ({ id: item })),
-      imageUrl:
-        'https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGl2aW5nJTIwcm9vbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+      images: fileList.map((item) => ({ url: item.name })),
       petFriendly: formData.petFriendly,
       roomType: formData.roomType,
       pricePerNight: formData.pricePerNight,
@@ -176,7 +198,10 @@ export const AddRoomModal = ({ ...props }) => {
       name: ['bedNumber'],
       value: formData.bedNumber,
     },
-
+    {
+      name: ['fileList'],
+      value: fileList,
+    },
     {
       name: ['description'],
       value: formData.description,
@@ -203,10 +228,13 @@ export const AddRoomModal = ({ ...props }) => {
       value: formData.facilities,
     },
   ]
-
+  const handleCancel = () => setPreviewOpen(false)
   return (
     <LayoutContaier>
       <div className={style.addRoom}>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+          <img alt='example' style={{ width: '100%' }} src={previewImage} />
+        </Modal>
         <div className={style.addRoom_Container}>
           {location.pathname === `/edit-room/${id}` ? <h1>Edit room</h1> : <h1>Add new</h1>}
 
@@ -223,7 +251,7 @@ export const AddRoomModal = ({ ...props }) => {
               </div>
               <div className={style.addRoom_Form}>
                 <span>Pet freindly</span>
-                <Form.Item>
+                <Form.Item name={'petFriendly'}>
                   <Radio.Group onChange={onChange} value={value}>
                     <Radio
                       onChange={(e) => {
@@ -341,13 +369,16 @@ export const AddRoomModal = ({ ...props }) => {
                 </Form.Item>
                 <span>{'Facility'}</span>
                 <Form.Item
-                  name='facility'
+                  name='facilities'
                   rules={[{ required: true, message: 'Please select a room type status' }]}>
                   <Select
                     mode='multiple'
                     value={formData?.facilities}
                     onChange={(e) => {
-                      setFormData({ ...formData, facilities: e })
+                      setFormData({
+                        ...formData,
+                        facilities: e,
+                      })
                     }}
                     options={facilitiesOptions}
                   />
@@ -360,15 +391,14 @@ export const AddRoomModal = ({ ...props }) => {
                 <span></span>
               </div>
               <div className={style.addRoom_Form}>
-                <Form.Item valuePropName='fileList'>
+                <Form.Item name='fileList' valuePropName='fileList'>
                   <Upload
-                    name='avatar'
-                    listType='picture-card'
-                    className='avatar-uploader'
-                    showUploadList={true}
                     action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    listType='picture-card'
+                    fileList={fileList}
+                    onPreview={handlePreview}
                     onChange={handleChange}>
-                    {fileList.length}
+                    {fileList!.length >= 8 ? null : uploadButton}
                   </Upload>
                 </Form.Item>
               </div>
