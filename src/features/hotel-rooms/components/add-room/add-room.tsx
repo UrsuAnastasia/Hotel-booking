@@ -40,14 +40,7 @@ export const AddRoomModal = ({ ...props }) => {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState<Array<UploadFile>>([
-    {
-      uid: '',
-      name: '',
-      status: undefined,
-      url: '',
-    },
-  ])
+  const [fileList, setFileList] = useState<Array<UploadFile>>([])
   const [formData, setFormData] = useState<any>({
     title: '',
     roomNumber: null,
@@ -136,7 +129,7 @@ export const AddRoomModal = ({ ...props }) => {
       cleanStatus: formData.cleanStatus,
       description: formData.description,
       facilities: formData.facilities.map((item: any) => ({ id: item })),
-      images: fileList.map((item) => ({ url: item.name })),
+      images: fileList.map((item) => ({ url: item.url })),
       petFriendly: formData.petFriendly,
       roomType: formData.roomType,
       pricePerNight: formData.pricePerNight,
@@ -151,6 +144,8 @@ export const AddRoomModal = ({ ...props }) => {
       error()
     }
   }
+
+  console.log(fileList)
   const facilitiesOptions = facilities.map((item) => {
     return {
       label: item.name,
@@ -166,7 +161,7 @@ export const AddRoomModal = ({ ...props }) => {
       cleanStatus: formData.cleanStatus,
       description: formData.description,
       facilities: formData.facilities.map((item: any) => ({ id: item })),
-      images: fileList.map((item) => ({ url: item.name })),
+      images: fileList.map((item) => ({ url: item.url })),
       petFriendly: formData.petFriendly,
       roomType: formData.roomType,
       pricePerNight: formData.pricePerNight,
@@ -228,7 +223,13 @@ export const AddRoomModal = ({ ...props }) => {
       value: formData.facilities,
     },
   ]
+  const dummyRequest = ({ file, onSuccess }: any) => {
+    setTimeout(() => {
+      onSuccess('ok')
+    }, 0)
+  }
   const handleCancel = () => setPreviewOpen(false)
+
   return (
     <LayoutContaier>
       <div className={style.addRoom}>
@@ -391,11 +392,12 @@ export const AddRoomModal = ({ ...props }) => {
                 <span></span>
               </div>
               <div className={style.addRoom_Form}>
-                <Form.Item name='fileList' valuePropName='fileList'>
+                <Form.Item valuePropName='fileList'>
                   <Upload
-                    action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                    // accept='image/*'
                     listType='picture-card'
-                    fileList={fileList}
+                    defaultFileList={fileList}
+                    customRequest={dummyRequest}
                     onPreview={handlePreview}
                     onChange={handleChange}>
                     {fileList!.length >= 8 ? null : uploadButton}
