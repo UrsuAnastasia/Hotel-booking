@@ -30,8 +30,8 @@ export const HotelRooms = () => {
     const getAllRooms = async () => {
       const response = await api.get(
         `rooms/view-list?type=${filter.type}&price=${filter.price}&dateFrom=${
-          filter.dateFrom === '' ? '' : filter.dateTo
-        }&dateTo=${filter.dateTo === '' ? '' : filter.dateFrom}`,
+          filter.dateFrom === '' ? '' : filter.dateFrom + 'T00:00'
+        }&dateTo=${filter.dateTo === '' ? '' : filter.dateTo + 'T00:00'}`,
       )
       setRooms(response.data)
     }
