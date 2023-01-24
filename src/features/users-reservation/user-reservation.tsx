@@ -27,7 +27,7 @@ const UserReservation: React.FC = () => {
   })
 
   const handleChangeStatus = async (status: any) => {
-    await api.patch(`reservations/${userId}?status=${status}`)
+    await api.patch(`reservations/${selectedRowKeys}?status=${status}`)
   }
   const statusOptions = [
     {
