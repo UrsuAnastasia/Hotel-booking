@@ -48,7 +48,21 @@ export const LayoutNavigation = () => {
         )}
         <li className={style.navbar_ItemButton}>
           {accountType === 'ADMIN' || accountType === 'USER' ? (
-            <div className={style.navbar_Link}>{email}</div>
+            <>
+              <div style={{ marginRight: '10px' }} className={style.navbar_Link}>
+                {email}
+              </div>
+              <button
+                onClick={() => {
+                  window.localStorage.removeItem('accountType')
+                  window.localStorage.removeItem('email')
+                  window.localStorage.removeItem('userId')
+                  navigate(PAGES_PATHS.LOGIN)
+                }}
+                className={style.navbar_Button}>
+                Log out
+              </button>
+            </>
           ) : (
             <button onClick={() => navigate(PAGES_PATHS.LOGIN)} className={style.navbar_Button}>
               Login
