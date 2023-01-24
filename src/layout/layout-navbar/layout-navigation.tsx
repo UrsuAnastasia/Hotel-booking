@@ -47,7 +47,7 @@ export const LayoutNavigation = () => {
           </>
         )}
         <li className={style.navbar_ItemButton}>
-          {accountType !== undefined ? (
+          {accountType === 'ADMIN' || accountType === 'USER' ? (
             <div className={style.navbar_Link}>{email}</div>
           ) : (
             <button onClick={() => navigate(PAGES_PATHS.LOGIN)} className={style.navbar_Button}>
