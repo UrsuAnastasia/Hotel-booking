@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Select, Space, Table } from 'antd'
 import api from 'common/axios/axios'
 import { LayoutContaier } from 'layout/layout-container/layout-container'
 import { useEffect, useState } from 'react'
@@ -26,6 +26,23 @@ const UserReservation: React.FC = () => {
     }
   })
 
+  const handleChangeStatus = async (status: any) => {
+    await api.patch(`reservations/${userId}?status=${status}`)
+  }
+  const statusOptions = [
+    {
+      label: 'Canceled',
+      value: 'CANCELED',
+    },
+    {
+      label: 'Checked out',
+      value: 'CHECKED_OUT',
+    },
+    {
+      label: 'Checked in',
+      value: 'CHECKED_IN',
+    },
+  ]
   const columns = [
     {
       title: 'Date From',
@@ -48,9 +65,20 @@ const UserReservation: React.FC = () => {
       key: 'title',
     },
     {
-      title: 'Capacity',
-      dataIndex: 'capacityle',
-      key: 'capacity',
+      title: 'Action',
+      key: 'action',
+      render: () => (
+        <Space size='middle'>
+          <Select
+            style={{ width: '150px' }}
+            // value={formData?.cleanStatus}
+            onChange={(e) => {
+              handleChangeStatus(e)
+            }}
+            options={statusOptions}
+          />
+        </Space>
+      ),
     },
   ]
 
