@@ -38,7 +38,7 @@ export const CardShowroom: React.FC<Props> = ({ ...props }) => {
           return (
             <div key={index} className={style.cardShowroom_Card}>
               <div className={style.cardShowroom_Image}>
-                <img alt='room' src={'item.imageUrl === null '} />
+                <img alt='room' src={item.images[0]?.url} />
               </div>
               <div className={style.cardShowroom_Status}>
                 <span>AVAILABLE NOW</span>
