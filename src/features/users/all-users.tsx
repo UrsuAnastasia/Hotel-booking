@@ -27,7 +27,6 @@ const ALLUsers: React.FC = () => {
       key: item.id,
       email: item.email,
       accountType: item.accountType,
-      password: item.password,
     }
   })
 
@@ -41,11 +40,6 @@ const ALLUsers: React.FC = () => {
       title: 'Account Type',
       dataIndex: 'accountType',
       key: 'accountType',
-    },
-    {
-      title: 'Password',
-      dataIndex: 'password',
-      key: 'password',
     },
   ]
 

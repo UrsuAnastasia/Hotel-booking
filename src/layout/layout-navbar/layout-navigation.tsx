@@ -6,6 +6,7 @@ import { Logo } from 'common/assets/icons/Logo'
 export const LayoutNavigation = () => {
   const navigate = useNavigate()
   const accountType = localStorage.getItem('accountType')
+  const email = localStorage.getItem('email')
   return (
     <nav className={style.navbar}>
       <div className={style.navbar_Logo}>
@@ -37,9 +38,13 @@ export const LayoutNavigation = () => {
           </>
         )}
         <li className={style.navbar_ItemButton}>
-          <button onClick={() => navigate(PAGES_PATHS.LOGIN)} className={style.navbar_Button}>
-            Login
-          </button>
+          {accountType !== undefined ? (
+            <div className={style.navbar_Link}>{email}</div>
+          ) : (
+            <button onClick={() => navigate(PAGES_PATHS.LOGIN)} className={style.navbar_Button}>
+              Login
+            </button>
+          )}
         </li>
       </ul>
     </nav>
