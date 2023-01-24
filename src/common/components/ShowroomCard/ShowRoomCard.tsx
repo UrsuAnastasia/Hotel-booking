@@ -18,6 +18,7 @@ export const CardShowroom: React.FC<Props> = ({ ...props }) => {
   const accountType = localStorage.getItem('accountType')
   const handleDelete = async () => {
     const response: any = await api.delete(`rooms/${props.roomId}`)
+    setOpenModal(false)
     if (response === 200) {
       alert('Success')
     } else {
