@@ -10,6 +10,7 @@ import { Home } from 'features/home/home-landing-page/home-landing-page'
 import { AddRoomModal } from 'features/hotel-rooms/components/add-room/add-room'
 import { Facility } from 'features/facility/components/facility-landing-page/facility'
 import ALLUsers from 'features/users/all-users'
+import UserReservation from 'features/users-reservation/user-reservation'
 
 export const PageRouter = () => {
   return (
@@ -24,6 +25,7 @@ export const PageRouter = () => {
         <Route path={PAGES_PATHS.ADD_ROOM} element={<AddRoomModal />} />
         <Route path={'/edit-room/:id'} element={<AddRoomModal />} />
         <Route path={PAGES_PATHS.ALL_USERS} element={<ALLUsers />} />
+        <Route path={PAGES_PATHS.USER_RESERVATION} element={<UserReservation />} />
       </Route>
     </Routes>
   )

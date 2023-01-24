@@ -37,6 +37,15 @@ export const LayoutNavigation = () => {
             </li>
           </>
         )}
+        {accountType === 'USER' && (
+          <>
+            <li className={style.navbar_Item}>
+              <Link className={style.navbar_Link} to={PAGES_PATHS.USER_RESERVATION}>
+                My reservation
+              </Link>
+            </li>
+          </>
+        )}
         <li className={style.navbar_ItemButton}>
           {accountType !== undefined ? (
             <div className={style.navbar_Link}>{email}</div>
